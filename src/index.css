@@ -1,0 +1,56 @@
+:root {
+  /* Brand Colors from Strategic Analysis */
+  --color-silver-chalice: #AAAAAA;
+  --color-crete-green: #5E812D;
+  --color-gallery-white: #EFEFEF;
+  --color-bondi-blue: #0099B5;
+  
+  /* Text Colors */
+  --text-primary: #333333;
+  --text-secondary: var(--color-silver-chalice);
+  --bg-primary: var(--color-gallery-white);
+  
+  /* Fonts */
+  --font-headers: 'Montserrat', sans-serif;
+  --font-body: 'Raleway', sans-serif;
+  
+  --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-headers);
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  outline: none;
+  font-family: var(--font-headers);
+}
