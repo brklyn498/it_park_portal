@@ -27,6 +27,24 @@
 
 @layer base {
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground transition-all duration-300;
   }
+}
+
+.itpark {
+  --color-background: #f8fafc;
+  --color-foreground: #020617;
+  --color-primary: #5e812d;
+  --color-primary-foreground: #ffffff;
+  --color-secondary: #ecf3e4;
+  --color-secondary-foreground: #365314;
+  --color-muted: #f1f5f9;
+  --color-muted-foreground: #64748b;
+  --color-accent: #d9e7c5;
+  --color-accent-foreground: #365314;
+  --color-border: #e2e8f0;
+  --color-ring: #5e812d;
+  --digital-blue: #5e812d;
+
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
 }

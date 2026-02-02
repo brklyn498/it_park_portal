@@ -1,11 +1,19 @@
+import { useState } from 'react';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
 import { EcosystemSection } from './components/EcosystemSection';
 import { organizations } from './data/organizations';
 
-
 function App() {
-    // Cluster organizations
+    const [theme, setTheme] = useState<'default' | 'itpark'>('default');
+
+    const toggleTheme = () => {
+        setTheme(prev => prev === 'default' ? 'itpark' : 'default');
+    };
+
+    const isItPark = theme === 'itpark';
+
+    // Digital Uzbekistan Track: Infrastructure, Governance, Postal, Research, Insurance
     const digitalUzOrgs = organizations.filter(org =>
         ["Governance", "Infrastructure", "Research & Space", "Postal & Logistics", "Insurance"].includes(org.category)
     ).map(org => ({
@@ -15,8 +23,9 @@ function App() {
         details: org.details
     }));
 
+    // IT Park Track: Innovation, Education, Venture, Event
     const itParkOrgs = organizations.filter(org =>
-        org.category === "Innovation"
+        ["Innovation", "Education", "Venture", "Event"].includes(org.category)
     ).map(org => ({
         name: org.name,
         url: org.url,
@@ -25,8 +34,8 @@ function App() {
     }));
 
     return (
-        <div className="min-h-screen bg-background text-foreground font-sans">
-            <Header />
+        <div className={`min-h-screen bg-background text-foreground font-sans transition-all duration-300 ${isItPark ? 'itpark' : ''}`}>
+            <Header toggleTheme={toggleTheme} isItPark={isItPark} />
             <main className="mx-auto max-w-7xl px-4 py-12 md:px-8 md:py-20 space-y-32">
                 <Hero />
 
@@ -36,7 +45,7 @@ function App() {
                         description="National digital infrastructure and core government services powering the digital state."
                         colorTheme="blue"
                         logo={{
-                            src: 'https://upload.wikimedia.org/wikipedia/commons/e/e0/Logo_IT_Park_Uzbekistan.svg', // Temporary placeholder
+                            src: 'https://upload.wikimedia.org/wikipedia/commons/e/e0/Logo_IT_Park_Uzbekistan.svg',
                             alt: 'Digital.uz Logo',
                         }}
                         primaryLink={{
@@ -58,7 +67,7 @@ function App() {
                             alt: 'IT Park Uzbekistan Logo',
                         }}
                         primaryLink={{
-                            name: 'IT Park',
+                            name: 'it-park.uz',
                             url: 'https://it-park.uz',
                             description: 'Central hub for innovation and technology',
                         }}
