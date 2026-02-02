@@ -7,3 +7,12 @@ dist
 dist-ssr
 *.log
 *.lock
+# Research and temporary files
+*.zip
+*.txt
+unpacked_navigator/
+*.md
+!README.md
+!task.md
+!implementation_plan.md
+!walkthrough.md
