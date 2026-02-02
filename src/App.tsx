@@ -1,44 +1,133 @@
-import { useState, useMemo } from 'react';
-import { Search, X, LayoutTemplate, Zap, ShieldCheck } from 'lucide-react';
-import { EcosystemSection } from './components/EcosystemSection';
-import { ModernCard } from './components/ModernCard';
+import { ArrowRight } from 'lucide-react';
 import { organizations } from './data/organizations';
 
+// --- ORIGINAL ZIP COMPONENTS ---
+
+function Header() {
+    return (
+        <header className="border-b border-border bg-card">
+            <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-6 md:px-8">
+                <div className="flex items-center gap-3">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary text-primary-foreground font-bold text-lg">
+                        UZ
+                    </div>
+                    <div>
+                        <h1 className="text-xl font-bold tracking-tight">National ICT Ecosystem</h1>
+                        <p className="text-sm text-muted-foreground">Uzbekistan Digital Gateway</p>
+                    </div>
+                </div>
+            </div>
+        </header>
+    );
+}
+
+function Hero() {
+    return (
+        <div className="relative space-y-8 text-center py-12">
+            <div className="absolute inset-0 -z-10 opacity-5 bg-grid-primary" />
+            <div className="space-y-4">
+                <div className="inline-block">
+                    <span className="text-xs md:text-sm uppercase tracking-widest text-primary/70 font-semibold">
+                        Digital Ecosystem Navigator
+                    </span>
+                </div>
+                <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight text-balance leading-tight">
+                    Uzbekistan <span className="text-primary">ICT</span> Infrastructure Hub
+                </h1>
+                <p className="text-base md:text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+                    Centralized gateway to national digital services, government platforms, and innovation ecosystem. Navigate Uzbekistan's comprehensive ICT infrastructure seamlessly.
+                </p>
+            </div>
+            <div className="flex flex-col sm:flex-row justify-center gap-4 pt-6">
+                <a href="#digital-uzbekistan" className="inline-flex items-center justify-center rounded-lg bg-primary text-primary-foreground px-8 py-3.5 font-semibold hover:shadow-lg transition-all">
+                    Government Services
+                </a>
+                <a href="#it-park-uzbekistan" className="inline-flex items-center justify-center rounded-lg border border-primary/50 text-primary px-8 py-3.5 font-semibold hover:bg-primary/5 transition-all">
+                    Innovation Hub
+                </a>
+            </div>
+        </div>
+    );
+}
+
+function NavigationCard({ name, url, description, variant = 'default', colorTheme = 'blue' }: any) {
+    const isPrimary = variant === 'primary';
+    const isGreen = colorTheme === 'green';
+
+    const themeAccent = isGreen ? 'from-green-500/15 to-green-500/5' : 'from-blue-500/15 to-blue-500/5';
+    const themeBorder = isGreen ? 'border-green-500/40' : 'border-blue-500/40';
+    const themeHover = isGreen ? 'hover:border-green-500/60 hover:shadow-lg hover:shadow-green-500/15' : 'hover:border-blue-500/60 hover:shadow-lg hover:shadow-blue-500/15';
+    const themeText = isGreen ? 'text-green-600' : 'text-blue-600';
+    const themeIcon = isGreen ? 'text-green-500' : 'text-blue-500';
+    const themeBg = isGreen ? 'bg-green-500/10' : 'bg-blue-500/10';
+
+    return (
+        <a href={url} target="_blank" rel="noopener noreferrer" className="group block h-full">
+            <div className={`relative overflow-hidden rounded-lg border transition-all duration-300 h-full flex flex-col ${isPrimary
+                    ? `${themeBorder} bg-gradient-to-br ${themeAccent} p-6 md:p-8 ${themeHover}`
+                    : 'border-border/50 bg-card/40 p-4 md:p-6 hover:border-primary/40 hover:bg-card/60 hover:shadow-lg hover:shadow-primary/10'
+                }`}>
+                <div className="space-y-3 flex-1">
+                    <div className="flex items-start justify-between gap-3">
+                        <div className="space-y-1 flex-1">
+                            <h4 className={`font-semibold transition-colors ${isPrimary ? `text-lg md:text-xl ${themeText}` : 'text-sm md:text-base text-foreground group-hover:text-primary'}`}>
+                                {name}
+                            </h4>
+                            <p className="text-xs md:text-sm text-muted-foreground line-clamp-2">
+                                {description}
+                            </p>
+                        </div>
+                        <ArrowRight className={`h-4 w-4 md:h-5 md:w-5 flex-shrink-0 transition-all opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5 ${isPrimary ? themeIcon : 'text-muted-foreground'}`} />
+                    </div>
+                    {isPrimary && (
+                        <div className={`pt-3 text-xs text-muted-foreground border-t ${isGreen ? 'border-green-500/20' : 'border-blue-500/20'}`}>
+                            <span className={`inline-block ${themeBg} px-2 py-1 rounded ${themeText} font-medium`}>
+                                Primary Gateway
+                            </span>
+                        </div>
+                    )}
+                </div>
+            </div>
+        </a>
+    );
+}
+
+function EcosystemSection({ title, description, primaryLink, links, colorTheme = 'blue' }: any) {
+    return (
+        <section id={title.toLowerCase().replace(/\s+/g, '-')} className="space-y-6">
+            <div className={`flex flex-col md:flex-row md:items-center gap-6 p-6 rounded-lg border ${colorTheme === 'blue' ? 'border-blue-500/30 bg-blue-500/5' : 'border-green-500/30 bg-green-500/5'} transition-colors`}>
+                <div className={`h-16 w-16 rounded-full flex items-center justify-center font-bold text-white ${colorTheme === 'blue' ? 'bg-blue-600' : 'bg-green-600'}`}>
+                    {title[0]}
+                </div>
+                <div className="flex-1 space-y-2">
+                    <h3 className="text-2xl md:text-3xl font-bold text-foreground">{title}</h3>
+                    <p className="text-sm md:text-base text-muted-foreground">{description}</p>
+                </div>
+            </div>
+
+            <div className="space-y-4">
+                {primaryLink && (
+                    <NavigationCard variant="primary" name={primaryLink.name} url={primaryLink.url} description={primaryLink.description} colorTheme={colorTheme} />
+                )}
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-2">
+                    {links.map((link: any) => (
+                        <NavigationCard key={link.name} {...link} colorTheme={colorTheme} />
+                    ))}
+                </div>
+            </div>
+        </section>
+    );
+}
+
+// --- MAIN APP COMPONENT ---
+
 function App() {
-    // Default Design Mode: 'classic' (White Background)
-    const [designMode, setDesignMode] = useState<'modern' | 'classic'>(() => {
-        return (localStorage.getItem('portal-design') as 'modern' | 'classic') || 'classic';
-    });
-
-    const [searchQuery, setSearchQuery] = useState('');
-
-    const toggleDesignMode = () => {
-        const next = designMode === 'modern' ? 'classic' : 'modern';
-        setDesignMode(next);
-        localStorage.setItem('portal-design', next);
-    };
-
-    const isModern = designMode === 'modern';
-
-    // Filtering for Modern Dashboard
-    const filteredOrgs = useMemo(() => {
-        if (!searchQuery) return organizations;
-        const q = searchQuery.toLowerCase();
-        return organizations.filter(org =>
-            org.name.toLowerCase().includes(q) ||
-            org.description.toLowerCase().includes(q) ||
-            org.category.toLowerCase().includes(q)
-        );
-    }, [searchQuery]);
-
-    // Grouping for Classic views
     const digitalUzOrgs = organizations.filter(org =>
         ["Governance", "Infrastructure", "Research & Space", "Postal & Logistics", "Insurance"].includes(org.category)
     ).map(org => ({
         name: org.name,
         url: org.url,
-        description: org.description,
-        details: org.details
+        description: org.description
     }));
 
     const itParkOrgs = organizations.filter(org =>
@@ -46,176 +135,43 @@ function App() {
     ).map(org => ({
         name: org.name,
         url: org.url,
-        description: org.description,
-        details: org.details
+        description: org.description
     }));
 
     return (
-        <div className={`min-h-screen transition-all duration-500 font-sans ${isModern ? 'modern-mode bg-[#020617] text-white' : 'bg-white text-[#020617]'}`}>
+        <div className="min-h-screen bg-background text-foreground">
+            <Header />
+            <main className="mx-auto max-w-7xl px-4 py-12 md:px-8 md:py-20">
+                <Hero />
+                <div className="mt-20 grid gap-16 lg:grid-cols-2">
+                    <EcosystemSection
+                        title="Digital Uzbekistan"
+                        description="National digital infrastructure and core government services"
+                        colorTheme="blue"
+                        primaryLink={{
+                            name: 'digital.uz',
+                            url: 'https://digital.uz',
+                            description: 'Primary gateway to national digital ecosystem'
+                        }}
+                        links={digitalUzOrgs}
+                    />
 
-            {/* Conditional Header Styling */}
-            <header className={`sticky top-0 z-50 border-b transition-all duration-500 ${isModern ? 'border-white/5 bg-black/60 backdrop-blur-2xl' : 'border-slate-200 bg-white/90 backdrop-blur-md'}`}>
-                <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 md:px-8">
-                    <div className="flex items-center gap-4">
-                        <div className="relative group">
-                            <div className={`absolute -inset-1 bg-blended-gradient rounded-xl blur ${isModern ? 'opacity-25' : 'opacity-10'} group-hover:opacity-100 transition duration-1000`}></div>
-                            <div className={`relative flex h-10 w-10 items-center justify-center rounded-xl font-black text-lg border ${isModern ? 'bg-black border-white/10 text-white' : 'bg-slate-100 border-slate-200 text-slate-900'}`}>
-                                <span>UZ</span>
-                            </div>
-                        </div>
-                        <div className={`hidden sm:block ${isModern ? 'text-white' : 'text-slate-900'}`}>
-                            <h1 className="text-sm font-black tracking-tight">STRATEGIC <span className="text-blended-gradient">NAVIGATOR</span></h1>
-                            <p className="text-[9px] text-muted-foreground uppercase tracking-[0.3em] font-medium leading-none mt-1">
-                                Digital Uzbekistan + IT Park
-                            </p>
-                        </div>
-                    </div>
-
-                    <div className="flex items-center gap-3">
-                        <button
-                            onClick={toggleDesignMode}
-                            className={`group flex items-center gap-2 px-4 py-2 rounded-full border text-xs font-bold uppercase tracking-wider transition-all ${isModern
-                                    ? 'border-white/10 bg-white/5 text-white hover:bg-white/10'
-                                    : 'border-slate-200 bg-slate-50 text-slate-900 hover:bg-slate-100'
-                                }`}
-                        >
-                            <LayoutTemplate className={`h-4 w-4 transition-transform group-hover:rotate-12 ${isModern ? 'text-primary' : 'text-blue-600'}`} />
-                            <span>{isModern ? 'Classic View' : 'Modern Dashboard'}</span>
-                        </button>
-
-                        <div className={`flex h-8 w-8 items-center justify-center rounded-full border ${isModern ? 'bg-white/5 border-white/10' : 'bg-slate-50 border-slate-200'}`}>
-                            <Zap className={`h-4 w-4 ${isModern ? 'text-itpark' : 'text-green-600'}`} />
-                        </div>
-                    </div>
+                    <EcosystemSection
+                        title="IT Park Uzbekistan"
+                        description="Innovation hub, talent development, and IT industry ecosystem"
+                        colorTheme="green"
+                        primaryLink={{
+                            name: 'IT Park',
+                            url: 'https://itpark.uz',
+                            description: 'Central hub for innovation and technology'
+                        }}
+                        links={itParkOrgs}
+                    />
                 </div>
-            </header>
-
-            <main className="mx-auto max-w-7xl px-4 md:px-8 py-10 md:py-20">
-                {isModern ? (
-                    /* --- MODERN DASHBOARD VIEW (Dark) --- */
-                    <div className="space-y-16">
-                        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-10">
-                            <div className="space-y-4">
-                                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[10px] font-black tracking-[0.2em] uppercase">
-                                    <ShieldCheck className="h-3.5 w-3.5 text-itpark" />
-                                    <span className="text-blended-gradient">Global Asset Directory</span>
-                                </div>
-                                <h2 className="text-5xl md:text-8xl font-black tracking-tighter text-white leading-[0.8]">
-                                    THE <span className="text-blended-gradient">UNIVERSE</span>
-                                </h2>
-                            </div>
-
-                            <div className="relative w-full max-w-md group">
-                                <div className="absolute -inset-0.5 bg-blended-gradient rounded-2xl blur opacity-10 group-focus-within:opacity-30 transition duration-500"></div>
-                                <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                                <input
-                                    type="text"
-                                    placeholder="Search ecosystem..."
-                                    value={searchQuery}
-                                    onChange={(e) => setSearchQuery(e.target.value)}
-                                    className="w-full pl-12 pr-4 py-4 bg-black border border-white/10 rounded-2xl focus:outline-none focus:border-white/20 transition-all text-sm text-white font-medium placeholder:text-muted-foreground/50"
-                                />
-                                {searchQuery && (
-                                    <button onClick={() => setSearchQuery('')} className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-white">
-                                        <X className="h-5 w-5" />
-                                    </button>
-                                )}
-                            </div>
-                        </div>
-
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                            {filteredOrgs.map((org) => (
-                                <ModernCard key={org.name} {...org} />
-                            ))}
-                        </div>
-                    </div>
-                ) : (
-                    /* --- CLASSIC VIEW (White Default) --- */
-                    <div className="space-y-40">
-                        <section className="relative overflow-hidden rounded-3xl p-12 md:p-24 bg-slate-50 border border-slate-100">
-                            <div className="absolute top-0 right-0 -mr-20 -mt-20 h-96 w-96 rounded-full bg-blue-500/5 blur-[100px]"></div>
-                            <div className="absolute bottom-0 left-0 -ml-20 -mb-20 h-96 w-96 rounded-full bg-green-500/5 blur-[100px]"></div>
-
-                            <div className="relative z-10 space-y-8 text-center max-w-4xl mx-auto">
-                                <div className="text-[10px] font-black tracking-[0.4em] uppercase text-slate-400">Digital Ecosystem Navigator</div>
-                                <h2 className="text-5xl md:text-7xl font-black tracking-tighter leading-none text-slate-900">
-                                    Uzbekistan <span className="text-blended-gradient italic">ICT Infrastructure Hub</span>
-                                </h2>
-                                <p className="text-slate-600 text-lg md:text-xl font-medium max-w-2xl mx-auto">
-                                    Centralized gateway to national digital services, government platforms, and the innovation ecosystem.
-                                </p>
-                                <div className="flex flex-wrap justify-center gap-4 pt-4">
-                                    <button className="px-8 py-4 bg-slate-900 text-white font-black uppercase tracking-widest text-xs rounded-xl hover:bg-blue-600 transition-all shadow-xl shadow-blue-900/10">
-                                        Government Services
-                                    </button>
-                                    <button className="px-8 py-4 bg-white border border-slate-200 text-slate-900 font-black uppercase tracking-widest text-xs rounded-xl hover:bg-slate-50 transition-all">
-                                        Innovation Hub
-                                    </button>
-                                </div>
-                            </div>
-                        </section>
-
-                        <div id="digital-uzbekistan">
-                            <EcosystemSection
-                                title="Digital Uzbekistan"
-                                description="Strategic national infrastructure and digital government services."
-                                colorTheme="blue"
-                                logo={{
-                                    src: 'https://upload.wikimedia.org/wikipedia/commons/e/e0/Logo_IT_Park_Uzbekistan.svg',
-                                    alt: 'Digital.uz Logo',
-                                }}
-                                primaryLink={{
-                                    name: 'digital.uz',
-                                    url: 'https://digital.uz',
-                                    description: 'Primary gateway to national digital ecosystem',
-                                }}
-                                links={digitalUzOrgs}
-                            />
-                        </div>
-
-                        <div id="it-park-uzbekistan">
-                            <EcosystemSection
-                                title="IT Park Uzbekistan"
-                                description="Innovation, Venture, and Talent acceleration engine."
-                                colorTheme="green"
-                                logo={{
-                                    src: 'https://upload.wikimedia.org/wikipedia/commons/e/e0/Logo_IT_Park_Uzbekistan.svg',
-                                    alt: 'IT Park Uzbekistan Logo',
-                                }}
-                                primaryLink={{
-                                    name: 'it-park.uz',
-                                    url: 'https://it-park.uz',
-                                    description: 'Central hub for innovation and technology',
-                                }}
-                                links={itParkOrgs}
-                            />
-                        </div>
-                    </div>
-                )}
             </main>
-
-            <footer className={`border-t py-16 transition-all duration-500 ${isModern ? 'border-white/5 bg-black' : 'border-slate-200 bg-slate-50'}`}>
-                <div className="mx-auto max-w-7xl px-4 md:px-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-12">
-                    <div className="space-y-4">
-                        <div className="flex items-center gap-3">
-                            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blended-gradient text-white font-black text-xs">UZ</div>
-                            <span className={`text-sm font-black tracking-widest uppercase ${isModern ? 'text-white' : 'text-slate-900'}`}>ICT Navigator 2.0</span>
-                        </div>
-                        <p className="text-xs text-muted-foreground/60 max-w-sm leading-relaxed uppercase tracking-tighter">
-                            The definitive Strategic Asset Gateway for the Republic of Uzbekistan. High-fidelity ecosystem monitoring.
-                        </p>
-                    </div>
-
-                    <div className="flex flex-col md:items-end gap-6 w-full md:w-auto">
-                        <div className="flex gap-10 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">
-                            <a href="#" className="hover:text-primary transition-colors">Security</a>
-                            <a href="#" className="hover:text-primary transition-colors">Protocol</a>
-                            <a href="#" className="hover:text-primary transition-colors">Contact</a>
-                        </div>
-                        <p className={`text-[10px] font-bold uppercase tracking-widest ${isModern ? 'text-muted-foreground/40' : 'text-slate-400'}`}>
-                            &copy; 2026 Strategic Assessment Mission. All systems operational.
-                        </p>
-                    </div>
+            <footer className="border-t border-border py-12 mt-20">
+                <div className="mx-auto max-w-7xl px-4 md:px-8 text-center text-sm text-muted-foreground text-balance">
+                    &copy; 2026 Assessment Mission. All systems operational. Strategic gateway to Uzbekistan's technology landscape.
                 </div>
             </footer>
         </div>

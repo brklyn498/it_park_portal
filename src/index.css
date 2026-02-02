@@ -1,76 +1,51 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @theme {
-  /* Default Theme: Classic (White/Clean) with Digital Blue & IT Park Green Accents */
-  --color-background: #ffffff;
-  --color-foreground: #020617;
+  --font-sans: 'Inter', 'ui-sans-serif', 'system-ui', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', '"Helvetica Neue"', 'Arial', '"Noto Sans"', 'sans-serif', '"Apple Color Emoji"', '"Segoe UI Emoji"', '"Segoe UI Symbol"', '"Noto Color Emoji"';
 
-  --color-primary: #0066cc;
-  /* Digital Blue - Standard for Classic */
-  --color-itpark: #5e812d;
-  /* IT Park Green - Standard for Classic */
+  --color-background: oklch(1 0 0);
+  --color-foreground: oklch(0.145 0 0);
+  --color-card: oklch(1 0 0);
+  --color-card-foreground: oklch(0.145 0 0);
+  --color-popover: oklch(1 0 0);
+  --color-popover-foreground: oklch(0.145 0 0);
+  --color-primary: oklch(0.205 0 0);
+  --color-primary-foreground: oklch(0.985 0 0);
+  --color-secondary: oklch(0.97 0 0);
+  --color-secondary-foreground: oklch(0.205 0 0);
+  --color-muted: oklch(0.97 0 0);
+  --color-muted-foreground: oklch(0.556 0 0);
+  --color-accent: oklch(0.97 0 0);
+  --color-accent-foreground: oklch(0.205 0 0);
+  --color-destructive: oklch(0.577 0.245 27.325);
+  --color-destructive-foreground: oklch(0.577 0.245 27.325);
+  --color-border: oklch(0.922 0 0);
+  --color-input: oklch(0.922 0 0);
+  --color-ring: oklch(0.708 0 0);
 
-  --color-card: #f8fafc;
-  --color-card-foreground: #020617;
+  --radius: 0.625rem;
 
-  --color-border: #e2e8f0;
-  --color-border-glow: rgba(0, 102, 204, 0.4);
-
-  --color-muted: #f1f5f9;
-  --color-muted-foreground: #64748b;
-
-  --radius: 1rem;
+  /* Ecosystem color coding */
+  --color-digital-blue: oklch(0.54 0.15 263.5);
+  --color-itpark-green: oklch(0.62 0.19 142);
 }
 
 @layer base {
+  * {
+    @apply border-border;
+  }
+
   body {
-    @apply bg-background text-foreground transition-all duration-500 ease-in-out;
+    @apply bg-background text-foreground transition-all duration-300;
   }
 }
 
-/* Modern Dashboard (Dark Mode) Overrides */
-.modern-mode {
-  --color-background: #020617;
-  --color-foreground: #f8fafc;
-
-  --color-primary: #38bdf8;
-  /* Neon Blue */
-  --color-itpark: #4ade80;
-  /* Neon Green */
-
-  --color-card: rgba(15, 23, 42, 0.7);
-  --color-card-foreground: #f8fafc;
-
-  --color-border: rgba(255, 255, 255, 0.08);
-  --color-border-glow: rgba(56, 189, 248, 0.4);
-
-  background-image:
-    radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.1) 0px, transparent 40%),
-    radial-gradient(at 100% 0%, rgba(74, 222, 128, 0.1) 0px, transparent 40%);
+/* Custom Utilities for the original style */
+.bg-grid-primary {
+  background-image: radial-gradient(circle at 1px 1px, var(--color-primary) 1px, transparent 1px);
+  background-size: 40px 40px;
 }
 
-/* Glassmorphism Classes */
-.glass {
-  background-color: var(--color-card);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border: 1px solid var(--color-border);
-}
-
-.glass-card {
-  background-color: var(--color-card);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border: 1px solid var(--color-border);
-  @apply hover:border-border-glow transition-all duration-300;
-}
-
-.bg-blended-gradient {
-  background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-itpark) 100%);
-}
-
-.text-blended-gradient {
-  background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-itpark) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+.text-balance {
+  text-wrap: balance;
 }
