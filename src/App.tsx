@@ -5,7 +5,7 @@ import { ModernCard } from './components/ModernCard';
 import { organizations } from './data/organizations';
 
 function App() {
-    // Default Design Mode: 'classic' (as requested)
+    // Default Design Mode: 'classic' (White Background)
     const [designMode, setDesignMode] = useState<'modern' | 'classic'>(() => {
         return (localStorage.getItem('portal-design') as 'modern' | 'classic') || 'classic';
     });
@@ -51,19 +51,19 @@ function App() {
     }));
 
     return (
-        <div className="min-h-screen bg-background text-foreground transition-all duration-500 font-sans">
+        <div className={`min-h-screen transition-all duration-500 font-sans ${isModern ? 'modern-mode bg-[#020617] text-white' : 'bg-white text-[#020617]'}`}>
 
-            {/* Dark Premium Header */}
-            <header className="sticky top-0 z-50 border-b border-white/5 bg-black/60 backdrop-blur-2xl">
+            {/* Conditional Header Styling */}
+            <header className={`sticky top-0 z-50 border-b transition-all duration-500 ${isModern ? 'border-white/5 bg-black/60 backdrop-blur-2xl' : 'border-slate-200 bg-white/90 backdrop-blur-md'}`}>
                 <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 md:px-8">
                     <div className="flex items-center gap-4">
                         <div className="relative group">
-                            <div className="absolute -inset-1 bg-blended-gradient rounded-xl blur opacity-25 group-hover:opacity-100 transition duration-1000"></div>
-                            <div className="relative flex h-10 w-10 items-center justify-center rounded-xl bg-black border border-white/10 text-white font-black text-lg">
+                            <div className={`absolute -inset-1 bg-blended-gradient rounded-xl blur ${isModern ? 'opacity-25' : 'opacity-10'} group-hover:opacity-100 transition duration-1000`}></div>
+                            <div className={`relative flex h-10 w-10 items-center justify-center rounded-xl font-black text-lg border ${isModern ? 'bg-black border-white/10 text-white' : 'bg-slate-100 border-slate-200 text-slate-900'}`}>
                                 <span>UZ</span>
                             </div>
                         </div>
-                        <div className="hidden sm:block text-white">
+                        <div className={`hidden sm:block ${isModern ? 'text-white' : 'text-slate-900'}`}>
                             <h1 className="text-sm font-black tracking-tight">STRATEGIC <span className="text-blended-gradient">NAVIGATOR</span></h1>
                             <p className="text-[9px] text-muted-foreground uppercase tracking-[0.3em] font-medium leading-none mt-1">
                                 Digital Uzbekistan + IT Park
@@ -74,14 +74,17 @@ function App() {
                     <div className="flex items-center gap-3">
                         <button
                             onClick={toggleDesignMode}
-                            className="group flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 text-white text-xs font-bold uppercase tracking-wider transition-all"
+                            className={`group flex items-center gap-2 px-4 py-2 rounded-full border text-xs font-bold uppercase tracking-wider transition-all ${isModern
+                                    ? 'border-white/10 bg-white/5 text-white hover:bg-white/10'
+                                    : 'border-slate-200 bg-slate-50 text-slate-900 hover:bg-slate-100'
+                                }`}
                         >
-                            <LayoutTemplate className="h-4 w-4 text-primary transition-transform group-hover:rotate-12" />
+                            <LayoutTemplate className={`h-4 w-4 transition-transform group-hover:rotate-12 ${isModern ? 'text-primary' : 'text-blue-600'}`} />
                             <span>{isModern ? 'Classic View' : 'Modern Dashboard'}</span>
                         </button>
 
-                        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white/5 border border-white/10">
-                            <Zap className="h-4 w-4 text-itpark" />
+                        <div className={`flex h-8 w-8 items-center justify-center rounded-full border ${isModern ? 'bg-white/5 border-white/10' : 'bg-slate-50 border-slate-200'}`}>
+                            <Zap className={`h-4 w-4 ${isModern ? 'text-itpark' : 'text-green-600'}`} />
                         </div>
                     </div>
                 </div>
@@ -89,7 +92,7 @@ function App() {
 
             <main className="mx-auto max-w-7xl px-4 md:px-8 py-10 md:py-20">
                 {isModern ? (
-                    /* --- MODERN DASHBOARD VIEW --- */
+                    /* --- MODERN DASHBOARD VIEW (Dark) --- */
                     <div className="space-y-16">
                         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-10">
                             <div className="space-y-4">
@@ -124,34 +127,28 @@ function App() {
                             {filteredOrgs.map((org) => (
                                 <ModernCard key={org.name} {...org} />
                             ))}
-                            {filteredOrgs.length === 0 && (
-                                <div className="col-span-full py-32 text-center glass-card rounded-3xl">
-                                    <Search className="h-16 w-16 text-muted-foreground mx-auto mb-6 opacity-10" />
-                                    <h3 className="text-xl font-bold text-foreground">Zero matches for "{searchQuery}"</h3>
-                                </div>
-                            )}
                         </div>
                     </div>
                 ) : (
-                    /* --- DARK CLASSIC VIEW (Default) --- */
+                    /* --- CLASSIC VIEW (White Default) --- */
                     <div className="space-y-40">
-                        <section className="relative overflow-hidden rounded-3xl p-12 md:p-24 glass">
-                            <div className="absolute top-0 right-0 -mr-20 -mt-20 h-96 w-96 rounded-full bg-primary/10 blur-[100px]"></div>
-                            <div className="absolute bottom-0 left-0 -ml-20 -mb-20 h-96 w-96 rounded-full bg-itpark/10 blur-[100px]"></div>
+                        <section className="relative overflow-hidden rounded-3xl p-12 md:p-24 bg-slate-50 border border-slate-100">
+                            <div className="absolute top-0 right-0 -mr-20 -mt-20 h-96 w-96 rounded-full bg-blue-500/5 blur-[100px]"></div>
+                            <div className="absolute bottom-0 left-0 -ml-20 -mb-20 h-96 w-96 rounded-full bg-green-500/5 blur-[100px]"></div>
 
                             <div className="relative z-10 space-y-8 text-center max-w-4xl mx-auto">
-                                <div className="text-[10px] font-black tracking-[0.4em] uppercase text-muted-foreground">Digital Ecosystem Navigator</div>
-                                <h2 className="text-5xl md:text-7xl font-black tracking-tighter leading-none text-white">
+                                <div className="text-[10px] font-black tracking-[0.4em] uppercase text-slate-400">Digital Ecosystem Navigator</div>
+                                <h2 className="text-5xl md:text-7xl font-black tracking-tighter leading-none text-slate-900">
                                     Uzbekistan <span className="text-blended-gradient italic">ICT Infrastructure Hub</span>
                                 </h2>
-                                <p className="text-muted-foreground text-lg md:text-xl font-medium max-w-2xl mx-auto">
+                                <p className="text-slate-600 text-lg md:text-xl font-medium max-w-2xl mx-auto">
                                     Centralized gateway to national digital services, government platforms, and the innovation ecosystem.
                                 </p>
                                 <div className="flex flex-wrap justify-center gap-4 pt-4">
-                                    <button className="px-8 py-4 bg-white text-black font-black uppercase tracking-widest text-xs rounded-xl hover:bg-primary hover:text-white transition-all shadow-lg shadow-white/5">
+                                    <button className="px-8 py-4 bg-slate-900 text-white font-black uppercase tracking-widest text-xs rounded-xl hover:bg-blue-600 transition-all shadow-xl shadow-blue-900/10">
                                         Government Services
                                     </button>
-                                    <button className="px-8 py-4 bg-white/5 border border-white/10 text-white font-black uppercase tracking-widest text-xs rounded-xl hover:bg-white/10 transition-all">
+                                    <button className="px-8 py-4 bg-white border border-slate-200 text-slate-900 font-black uppercase tracking-widest text-xs rounded-xl hover:bg-slate-50 transition-all">
                                         Innovation Hub
                                     </button>
                                 </div>
@@ -197,12 +194,12 @@ function App() {
                 )}
             </main>
 
-            <footer className="border-t border-white/5 py-16 bg-black">
-                <div className="mx-auto max-w-7xl px-4 md:px-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-12 text-white">
+            <footer className={`border-t py-16 transition-all duration-500 ${isModern ? 'border-white/5 bg-black' : 'border-slate-200 bg-slate-50'}`}>
+                <div className="mx-auto max-w-7xl px-4 md:px-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-12">
                     <div className="space-y-4">
                         <div className="flex items-center gap-3">
                             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blended-gradient text-white font-black text-xs">UZ</div>
-                            <span className="text-sm font-black tracking-widest uppercase">ICT Navigator 2.0</span>
+                            <span className={`text-sm font-black tracking-widest uppercase ${isModern ? 'text-white' : 'text-slate-900'}`}>ICT Navigator 2.0</span>
                         </div>
                         <p className="text-xs text-muted-foreground/60 max-w-sm leading-relaxed uppercase tracking-tighter">
                             The definitive Strategic Asset Gateway for the Republic of Uzbekistan. High-fidelity ecosystem monitoring.
@@ -215,7 +212,7 @@ function App() {
                             <a href="#" className="hover:text-primary transition-colors">Protocol</a>
                             <a href="#" className="hover:text-primary transition-colors">Contact</a>
                         </div>
-                        <p className="text-[10px] text-muted-foreground/40 font-bold uppercase tracking-widest">
+                        <p className={`text-[10px] font-bold uppercase tracking-widest ${isModern ? 'text-muted-foreground/40' : 'text-slate-400'}`}>
                             &copy; 2026 Strategic Assessment Mission. All systems operational.
                         </p>
                     </div>
